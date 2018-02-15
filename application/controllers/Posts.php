@@ -37,7 +37,7 @@ class Posts extends CI_Controller{
             $this->load->library('upload',$config);
             if(!$this->upload->do_upload()){
                 $error=array('error'=>$this->upload->display_errors());
-                $post_image=$_FILES['userfile']['name'];
+                $post_image='noimage.jpg';
             }else{
                 $data=array('upload_data'=>$this->upload->data());
                 $post_image=$_Files['userfile']['name'];

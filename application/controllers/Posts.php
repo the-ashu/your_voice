@@ -10,6 +10,9 @@ class Posts extends CI_Controller{
     }
     public function view ($slug = NULL){
         $data['post']=$this->Post_model->get_posts($slug);
+        $post_id = $data['post']['id'];
+        $data['comments'] = $this->Comment_model->get_comments($post_id);
+
         if(empty($data['post'])) {
             echo "ashuu";
             show_404();
@@ -43,13 +46,16 @@ class Posts extends CI_Controller{
                 $post_image=$_Files['userfile']['name'];
             }
             $this->Post_model->create_post($post_image);
-           // $this->load->view('posts/success');
+            $this->session->set_flashdata('post_created', 'Your post has been created');
+
+            // $this->load->view('posts/success');
             redirect('posts');
         }
     }
     public function delete($id)
     {
         $this->Post_model->delete_post($id);
+        $this->session->set_flashdata('category_deleted', 'Your category has been deleted');
         redirect('posts');
     }
     public function edit($slug){
@@ -65,6 +71,7 @@ class Posts extends CI_Controller{
     }
     public function update(){
          $this->Post_model->update_post();
+        $this->session->set_flashdata('post_updated', 'Your post has been updated');
          redirect('posts');
     }
      }

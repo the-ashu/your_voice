@@ -24,14 +24,14 @@ class Categories extends CI_Controller
             $this->Category_model->create_category();
 
 // Set message
-
+            $this->session->set_flashdata('category_created', 'Your category has been created');
             redirect('categories');
         }
     }
     public function posts($id){
-        $data['title'] = $this->category_model->get_category($id)->name;
+        $data['title'] = $this->Category_model->get_category($id)->name;
 
-        $data['posts'] = $this->post_model->get_posts_by_category($id);
+        $data['posts'] = $this->Post_model->get_posts_by_category($id);
 
         $this->load->view('templates/header');
         $this->load->view('posts/index', $data);

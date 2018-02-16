@@ -13,3 +13,5 @@
 </div>
     <span class="label label-primary">ciBlog</span>
 <?php endforeach; ?>
+<div class="pagination-links">
+<?php echo $this->pagination->create_links(); ?>

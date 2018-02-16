@@ -11,8 +11,11 @@ class Categories extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function create()
-    {$data['title'] = 'Create Category';
+    public function create(){
+        if(!$this->session->userdata('logged_in')){
+				redirect('users/login');
+			}
+    $data['title'] = 'Create Category';
 
         $this->form_validation->set_rules('name', 'Name', 'required');
 
@@ -36,5 +39,18 @@ class Categories extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('posts/index', $data);
         $this->load->view('templates/footer');
+    }
+    public function delete($id){
+        // Check login
+        if(!$this->session->userdata('logged_in')){
+            redirect('users/login');
+        }
+
+        $this->Category_model->delete_category($id);
+
+        // Set message
+        $this->session->set_flashdata('category_deleted', 'Your category has been deleted');
+
+        redirect('categories');
     }
 }

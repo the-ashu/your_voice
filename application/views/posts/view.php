@@ -10,11 +10,13 @@
 
     </div>
 </div>
+<?php if($this->session->userdata('user_id')==$post['user_id']):?>
 <hr>
 <a class="btn btn-success pull-right" href="<?php echo base_url(); ?>posts/edit/<?php echo $post['slug']; ?>">Edit</a>
 <?php echo form_open('/posts/delete/'.$post['id']);?>
 <input type="submit" value="Delete" class="btn btn-danger">
 </form>
+<?php endif;?>
 <hr>
 <h3>Comments</h3>
 <?php if($comments) : ?>

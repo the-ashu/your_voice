@@ -32,24 +32,32 @@ class Posts extends CI_Controller{
         $this->load->view('templates/footer');
     }
     public function create(){
+        // Check login
         if(!$this->session->userdata('logged_in')){
             redirect('users/login');
         }
-        $data['title']='Create Post';
-        $data['categories']=$this->Post_model->get_categories();
-        $this->form_validation->set_rules('title','Title','required');
-        $this->form_validation->set_rules('body','Body','required');
-        if($this->form_validation->run()=== False) {
+
+        $data['title'] = 'Create Post';
+
+        $data['categories'] = $this->Post_model->get_categories();
+
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('body', 'Body', 'required');
+
+        if($this->form_validation->run() === FALSE){
             $this->load->view('templates/header');
             $this->load->view('posts/create', $data);
             $this->load->view('templates/footer');
-        }
-        else{
-            $config['upload_path']='../assets/images/posts';
-            $config['allowed_types']='gif|png|jpg';
-            $config['max_size']='2048';
-            $config['max_height']='500';
-            $this->load->library('upload',$config);
+        } else {
+            // Upload Image
+            $config['upload_path'] = './assets/images/posts';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = '2048';
+            $config['max_width'] = '2000';
+            $config['max_height'] = '2000';
+
+            $this->load->library('upload', $config);
+
             if(!$this->upload->do_upload()){
                 $errors = array('error' => $this->upload->display_errors());
                 $post_image = 'noimage.jpg';
@@ -57,13 +65,16 @@ class Posts extends CI_Controller{
                 $data = array('upload_data' => $this->upload->data());
                 $post_image = $_FILES['userfile']['name'];
             }
+
             $this->Post_model->create_post($post_image);
+
+            // Set message
             $this->session->set_flashdata('post_created', 'Your post has been created');
 
-            // $this->load->view('posts/success');
             redirect('posts');
         }
     }
+
     public function delete($id)
     {if(!$this->session->userdata('logged_in')){
         redirect('users/login');

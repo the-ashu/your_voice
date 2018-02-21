@@ -24,9 +24,43 @@ class Users extends CI_Controller
 
             // Set message
             $this->session->set_flashdata('user_registered', 'You are now registered and can log in');
-
+                 $this->email();
             redirect('posts');
         }
+    }
+    function email()
+    {
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+        $config['smtp_port']    = '465';
+        $config['smtp_timeout'] = '7';
+        $config['smtp_user']    = 'ashutosh16215@gmail.com';
+        $config['smtp_pass']    = '9506274315';
+        $config['charset']    = 'utf-8';
+        $config['newline']    = "\r\n";
+        $config['mailtype'] = 'text'; // or html
+        $config['validation'] = TRUE; // bool whether to validate email or not
+
+        $this->email->initialize($config);
+        $data = array(
+            'name' => $this->input->post('name'),
+            'email1' => $this->input->post('email'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'zipcode' => $this->input->post('zipcode')
+        );
+
+        $this->email->from('ashutosh16215@gmail.com', 'ashutosh');
+        $this->email->to($data['email1']);
+
+        $this->email->subject('Welcome to Your_voice');
+        $this->email->message('your username is='.$data['username']. '  And your password is'.$data['password']);
+
+        $this->email->send();
+
+        echo $this->email->print_debugger();
+
+        //  $this->load->view('email_view');
     }
     public function login(){
         $data['title'] = 'Sign In';

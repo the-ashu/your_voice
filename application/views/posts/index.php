@@ -11,7 +11,7 @@
     <p><a class="btn btn-default" href="<?php echo site_url('/posts/'.$post['slug']);?>">Read More</a></p>
     </div>
 </div>
-    <span class="label label-primary">ciBlog</span>
+    <span class="label label-primary">Your_voice</span>
 <?php endforeach; ?>
 <div class="pagination-links">
 <?php echo $this->pagination->create_links(); ?>

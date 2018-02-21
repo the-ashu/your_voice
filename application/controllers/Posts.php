@@ -22,7 +22,7 @@ class Posts extends CI_Controller{
         $data['post']=$this->Post_model->get_posts($slug);
         $post_id = $data['post']['id'];
         $data['comments'] = $this->Comment_model->get_comments($post_id);
-
+          
         if(empty($data['post'])) {
             show_404();
         }

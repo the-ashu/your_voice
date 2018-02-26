@@ -30,7 +30,18 @@ a.pagination-link{
     background: #f4f4f4;
     border: 1px #ccc solid;
 }
-
+.footer{
+    text-align:center;
+    background:#000;
+    padding:3em 0 1em 0;
+}
+.footer p {
+    color: #fff;
+    font-size: 1em;
+}
+.footer p a{
+    color: #fff;
+}
 .cat-delete{
     display:inline;
 }
